@@ -10,6 +10,8 @@ _pr_cwd() {
   local newPWD=$(print -Pn %2~)
   newPWD=$(echo $newPWD| sed 's/^'$_pr_cwd_HOME_'/~/g')
   
+  pr_cwd_plain="$newPWD"
+
   local lockIcon=""
   if [[ ! -w "$PWD" ]]; then
     lockIcon=" "
@@ -22,8 +24,9 @@ _pr_cwd() {
   else
     pr_cwd="$CURRENT_PATH_PREFIX$lockIcon$newPWD$CURRENT_PATH_SUFIX"
   fi
-  
+
 }
 
 _pr_cwd
 chpwd_functions+=(_pr_cwd)
+
