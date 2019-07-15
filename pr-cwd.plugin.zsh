@@ -14,13 +14,15 @@ _pr_cwd() {
 
   local lockIcon=""
   if [[ ! -w "$PWD" ]]; then
-    lockIcon=" "
+    lockIcon="%{$fg_bold[red]%} "
+  else
+	lockIcon="%{$fg_bold[green]%} "
   fi
   
   if [[ $CLICOLOR = 1 ]]; then
     newPWD=${newPWD//\//%{$fg_bold[red]%}\/%{$fg_bold[blue]%}}
     newPWD=$'%{\033]8;;file://'"$PWD"$'\a%}'$newPWD$'%{\033]8;;\a%}'
-    pr_cwd="$CURRENT_PATH_PREFIX%{$fg[red]%}$lockIcon%{$fg_bold[blue]%}$newPWD$CURRENT_PATH_SUFIX%{$reset_color%}"
+    pr_cwd="$CURRENT_PATH_PREFIX$lockIcon%{$fg_bold[blue]%}$newPWD$CURRENT_PATH_SUFIX%{$reset_color%}"
   else
     pr_cwd="$CURRENT_PATH_PREFIX$lockIcon$newPWD$CURRENT_PATH_SUFIX"
   fi
