@@ -3,7 +3,8 @@
 CURRENT_PATH_PREFIX=${CURRENT_PATH_PREFIX:-" "}
 CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
 
-if which zpm >/dev/null; then
+DEPENDENCES_ZSH+=( zpm-zsh/colors )
+if command -v zpm >/dev/null; then
   zpm zpm-zsh/colors
 fi
 
