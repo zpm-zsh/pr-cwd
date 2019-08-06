@@ -76,7 +76,7 @@ _pr_cwd() {
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}%{$c[blue]$c[bold]%}$link$CURRENT_PATH_SUFIX%{$c[reset]%}"
     
   else
-    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$newPWD$CURRENT_PATH_SUFIX"
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(hyperlink-file-pr ${newPWD} ${PWD})$CURRENT_PATH_SUFIX"
   fi
   
 }
