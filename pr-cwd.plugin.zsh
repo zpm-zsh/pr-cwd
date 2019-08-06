@@ -107,7 +107,7 @@ _pr_cwd() {
     return 0
   fi
   
-  newPWD=$(print -Pn %2~| sed 's/^'$_pr_cwd_HOME_'/~/g')
+  newPWD=$(print -Pn %2~)
   
   if [[ $CLICOLOR = 1 ]]; then
     
