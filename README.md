@@ -16,6 +16,8 @@ This plugin made to be fast. It runs in background and update information only i
 
 ## Installation
 
+### Please, install [jq](https://stedolan.github.io/jq/).
+
 ### This plugin depends on [zsh-helpers](https://github.com/zpm-zsh/helpers) and [zsh-colors](https://github.com/zpm-zsh/colors)
 
 If you don't use [zpm](https://github.com/zpm-zsh/zpm), install it manually and activate it before this plugin. 
