@@ -10,7 +10,7 @@ fi
 
 is_bookmark_dir(){
   
-  rpath=$(realpath $1)
+  rpath=$(readlink -f $1)
   
   if [[ "$rpath" =~ ^"$HOME"(/|$) ]]; then
     cwd="\$HOME${rpath#$HOME}"
@@ -30,7 +30,7 @@ is_bookmark_dir(){
 
 get_bookmark(){
   
-  rpath=$(realpath $1)
+  rpath=$(readlink -f $1)
   
   if [[ "$rpath" =~ ^"$HOME"(/|$) ]]; then
     cwd="\$HOME${rpath#$HOME}"
