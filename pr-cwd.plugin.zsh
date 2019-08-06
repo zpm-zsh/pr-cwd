@@ -42,8 +42,6 @@ get_bookmark(){
   
 }
 
-_pr_cwd_HOME_=$(echo $HOME | sed 's/\//\\\//g')
-
 if [[ $CLICOLOR = 1 ]]; then
   bookmark_icon="%{$c[blue]$c_dim%}%{$c_reset%} "
 else
