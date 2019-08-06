@@ -124,5 +124,6 @@ _pr_cwd() {
 }
 
 _pr_cwd
+autoload -Uz add-zsh-hook
 add-zsh-hook chpwd _pr_cwd
 
