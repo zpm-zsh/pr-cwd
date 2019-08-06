@@ -10,29 +10,41 @@ fi
 
 _pr_cwd_HOME_=$(echo $HOME | sed 's/\//\\\//g')
 
+if [[ $CLICOLOR = 1 ]]; then
+  
+  bookmark_icon="%{$c[blue]$c_dim%}%{$c_reset%} "
+  
+else
+  
+  bookmark_icon=" "
+  
+fi
+
 _pr_cwd() {
   pr_cwd=''
   
   if [[ $CLICOLOR = 1 ]]; then
     
     if [[ ! -w "$PWD" ]]; then
-      lockIcon="%{$c[red]$c[dim]%}%{$c[reset]%} "
+      lock_icon="%{$c[red]$c[dim]%}%{$c[reset]%} "
     else
-      lockIcon="%{$c[green]$c[dim]%}%{$c[reset]%} "
+      lock_icon=""
     fi
     
   else
     
     if [[ ! -w "$PWD" ]]; then
-      lockIcon=" "
+      lock_icon=" "
     else
-      lockIcon=" "
+      lock_icon=""
     fi
     
   fi
   
   if [[ "$PWD" =~ ^"$HOME"(/|$) ]]; then
     cwd="\$HOME${PWD#$HOME}"
+  else
+    cwd="$PWD"
   fi
   
   if [[ ! -z "$BOOKMARKS_FILE" ]]; then
@@ -42,9 +54,9 @@ _pr_cwd() {
       if [[ $CLICOLOR = 1 ]]; then
         link=${bookmark_name//\//%{$c[red]$c[bold]%}\/%{$c[cyan]$c[bold]%}}
         link=$'%{\033]8;;file://'"$PWD"$'\a%}'$link$'%{\033]8;;\a%}'
-        pr_cwd="$CURRENT_PATH_PREFIX$lockIcon%{$c[cyan]$c_bold%}$link%{$c[reset]%}$CURRENT_PATH_SUFIX"
+        pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}%{$c[cyan]$c_bold%}$link%{$c[reset]%}$CURRENT_PATH_SUFIX"
       else
-        pr_cwd="$CURRENT_PATH_PREFIX$lockIcon$bookmark_name$CURRENT_PATH_SUFIX"
+        pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}$bookmark_name$CURRENT_PATH_SUFIX"
       fi
       
       return 0
@@ -56,13 +68,13 @@ _pr_cwd() {
   if [[ $CLICOLOR = 1 ]]; then
     link=${newPWD//\//%{$c[red]$c[bold]%}\/%{$c[blue]$c[bold]%}}
     link=$'%{\033]8;;file://'"$PWD"$'\a%}'$link$'%{\033]8;;\a%}'
-    pr_cwd="$CURRENT_PATH_PREFIX$lockIcon%{$c[blue]$c[bold]%}$link$CURRENT_PATH_SUFIX%{$c[reset]%}"
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}%{$c[blue]$c[bold]%}$link$CURRENT_PATH_SUFIX%{$c[reset]%}"
   else
-    pr_cwd="$CURRENT_PATH_PREFIX$lockIcon$newPWD$CURRENT_PATH_SUFIX"
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$newPWD$CURRENT_PATH_SUFIX"
   fi
   
 }
 
 _pr_cwd
-chpwd_functions+=(_pr_cwd)
+add-zsh-hook chpwd _pr_cwd
 
