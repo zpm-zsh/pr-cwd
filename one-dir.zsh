@@ -12,7 +12,7 @@ _pr_cwd_get_one_dir(){
     echo -n "%{$c[reset]%}"
     
   else
-    print -Pn %~
+    echo -n "/${PWD:t}"
   fi
 }
 
