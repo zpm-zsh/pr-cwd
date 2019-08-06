@@ -3,54 +3,20 @@
 CURRENT_PATH_PREFIX=${CURRENT_PATH_PREFIX:-" "}
 CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
 
-DEPENDENCES_ZSH+=( zpm-zsh/colors )
+DEPENDENCES_ZSH+=( zpm-zsh/helpers zpm-zsh/colors )
 if command -v zpm >/dev/null; then
-  zpm zpm-zsh/colors
+  zpm zpm-zsh/helpers zpm-zsh/colors
 fi
 
-is_bookmark_dir(){
-  
-  rpath=${1:P}
-  
-  if [[ "$rpath" =~ ^"$HOME"(/|$) ]]; then
-    cwd="\$HOME${rpath#$HOME}"
-  else
-    cwd="$rpath"
-  fi
-  
-  if [[ ! -z "$BOOKMARKS_FILE" ]]; then
-    if grep -q -e "^$cwd|" "$BOOKMARKS_FILE"; then
-      return 0
-    fi
-    
-  fi
-  
-  return 1
-}
-
-get_bookmark(){
-  
-  rpath=${1:P}
-  
-  if [[ "$rpath" =~ ^"$HOME"(/|$) ]]; then
-    cwd="\$HOME${rpath#$HOME}"
-  else
-    cwd="$rpath"
-  fi
-  
-  grep "$cwd" "$BOOKMARKS_FILE" | awk -F'|' '{print $2}'
-  
-}
-
-if [[ $CLICOLOR = 1 ]]; then
-  bookmark_icon="%{$c[blue]$c_dim%}%{$c_reset%} "
-else
-  bookmark_icon=" "
-fi
+source  ${${(%):-%x}:a:h}/home.zsh
+source  ${${(%):-%x}:a:h}/one-dir.zsh
+source  ${${(%):-%x}:a:h}/bookmark.zsh
+source  ${${(%):-%x}:a:h}/node.zsh
 
 _pr_cwd() {
   pr_cwd=''
   
+  # Prepare ----
   if [[ $CLICOLOR = 1 ]]; then
     
     if [[ ! -w "$PWD" ]]; then
@@ -68,40 +34,36 @@ _pr_cwd() {
     fi
     
   fi
+  # /Prepare ----
   
   
-  if is_bookmark_dir "$PWD" ; then
-    
-    if [[ $CLICOLOR = 1 ]]; then
-      
-      link=$'%{\033]8;;file://'"$PWD"$'\a%}'$(get_bookmark "$PWD")$'%{\033]8;;\a%}'
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}%{$c[cyan]$c_bold%}$link%{$c[reset]%}$CURRENT_PATH_SUFIX"
-      
-    else
-      
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}$(get_bookmark "$PWD")$CURRENT_PATH_SUFIX"
-      
-    fi
-    
+  if _pr_cwd_is_bookmark_dir "$PWD" ; then
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_bookmark_icon}$(hyperlink-file-pr "$(_pr_cwd_get_bookmark "$PWD")" "$PWD" )$CURRENT_PATH_SUFIX"
     return 0
   fi
   
-  if is_bookmark_dir "$PWD/.." ; then
-    
-    if [[ $CLICOLOR = 1 ]]; then
-      
-      cwd="%{$c[cyan]$c_bold%}$(get_bookmark "$PWD/..")%{$c[red]$c[bold]%}/"
-      cwd+="%{$c[blue]$c_bold%}$(print -Pn %1/)%{$c[reset]%}"
-      link=$'%{\033]8;;file://'"$PWD"$'\a%}'${cwd}$'%{\033]8;;\a%}'
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}$link$CURRENT_PATH_SUFIX"
-      
-    else
-      
-      cwd="$(get_bookmark "$PWD/..")/$(print -Pn %1/)"
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}${cwd}$CURRENT_PATH_SUFIX"
-      
-    fi
-    
+  if _pr_cwd_is_node_dir "$PWD" ; then
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_node_icon}$(hyperlink-file-pr "$(_pr_cwd_get_node_package "$PWD")" "$PWD" )$CURRENT_PATH_SUFIX"
+    return 0
+  fi
+  
+  if _pr_cwd_is_home_dir ; then
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(hyperlink-file-pr "$(_pr_cwd_get_home_dir)" "$PWD" )$CURRENT_PATH_SUFIX"
+    return 0
+  fi
+  
+  if _pr_cwd_is_one_dir ; then
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(hyperlink-file-pr "$(_pr_cwd_get_one_dir)" "$PWD" )$CURRENT_PATH_SUFIX"
+    return 0
+  fi
+  
+  if _pr_cwd_is_bookmark_dir "$PWD/.." ; then
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_bookmark_icon}$(hyperlink-file-pr "$(_pr_cwd_get_bookmark "$PWD/..")$(_pr_cwd_get_one_dir)" "$PWD" )$CURRENT_PATH_SUFIX"
+    return 0
+  fi
+  
+  if _pr_cwd_is_node_dir "$PWD/.." ; then
+    pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_node_icon}$(hyperlink-file-pr "$(_pr_cwd_get_node_package "$PWD/..")$(_pr_cwd_get_one_dir)" "$PWD" )$CURRENT_PATH_SUFIX"
     return 0
   fi
   
@@ -110,13 +72,11 @@ _pr_cwd() {
   if [[ $CLICOLOR = 1 ]]; then
     
     link=${newPWD//\//%{$c[red]$c[bold]%}\/%{$c[blue]$c[bold]%}}
-    link=$'%{\033]8;;file://'"$PWD"$'\a%}'$link$'%{\033]8;;\a%}'
+    link=$(hyperlink-file-pr ${link} ${PWD})
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}%{$c[blue]$c[bold]%}$link$CURRENT_PATH_SUFIX%{$c[reset]%}"
     
   else
-    
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$newPWD$CURRENT_PATH_SUFIX"
-    
   fi
   
 }
@@ -124,4 +84,3 @@ _pr_cwd() {
 _pr_cwd
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd _pr_cwd
-
