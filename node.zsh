@@ -16,20 +16,14 @@ _pr_cwd_get_node_package(){
   
   package="${rpath}/package.json"
   
+  package_name='Unknown name'
   if command -v jq >/dev/null; then
     package_name=$(jq -r '.name' ${package} 2>/dev/null)
-  elif command -v python >/dev/null; then
-    package_name=$(python -c "import json; print(json.load(open('"${package}"'))['name'])" 2>/dev/null)
-  elif command -v node >/dev/null; then
-    package_name=$(node -p "require('"${package}"').name" 2> /dev/null)
   fi
-  
+
+  package_version='Unknown version'
   if command -v jq >/dev/null; then
     package_version=$(jq -r '.version' ${package} 2>/dev/null)
-  elif command -v python >/dev/null; then
-    package_version=$(python -c "import json; print(json.load(open('"${package}"'))['version'])" 2>/dev/null)
-  elif command -v node >/dev/null; then
-    package_version=$(node -p "require('"${package}"').version" 2> /dev/null)
   fi
   
   if [[ $CLICOLOR = 1 ]]; then
