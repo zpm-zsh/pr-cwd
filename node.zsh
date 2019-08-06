@@ -1,11 +1,5 @@
 #!/usr/bin/env zsh
 
-if [[ $CLICOLOR = 1 ]]; then
-  _pr_cwd_node_icon="%{$c[green]$c_dim%}⬢%{$c_reset%} "
-else
-  _pr_cwd_node_icon="⬢ "
-fi
-
 _pr_cwd_is_node_dir(){
   rpath=${1:P}
   
@@ -20,7 +14,7 @@ _pr_cwd_is_node_dir(){
 _pr_cwd_get_node_package(){
   rpath=${1:P}
   
-  package=$(is-recursive-exist package.json)
+  package="${rpath}/package.json"
   
   if command -v jq >/dev/null; then
     package_name=$(jq -r '.name' ${package} 2>/dev/null)
@@ -43,21 +37,9 @@ _pr_cwd_get_node_package(){
     echo -n "%{$c[green]$c_bold%}"
     echo -n "${package_name}@${package_version}"
     echo -n "%{$c[reset]%}"
-  else
     
+  else
     echo "${package_name}@${package_version}"
-    
-  fi
-  
-  if [[ $CLICOLOR = 1 ]]; then
-    
-    echo -n "%{$c[cyan]$c_bold%}"
-    echo -n $(grep "$cwd" "$BOOKMARKS_FILE" | awk -F'|' '{print $2}')
-    echo -n "%{$c[reset]%}"
-    
-  else
-    grep "$cwd" "$BOOKMARKS_FILE" | awk -F'|' '{print $2}'
-    
   fi
   
 }
