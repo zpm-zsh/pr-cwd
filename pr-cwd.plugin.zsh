@@ -93,13 +93,13 @@ _pr_cwd() {
     if [[ $CLICOLOR = 1 ]]; then
       
       cwd="%{$c[cyan]$c_bold%}$(get_bookmark "$PWD/..")%{$c[red]$c[bold]%}/"
-      cwd+="%{$c[blue]$c_bold%}$(print -Pn %1~)%{$c[reset]%}"
+      cwd+="%{$c[blue]$c_bold%}$(print -Pn %1/)%{$c[reset]%}"
       link=$'%{\033]8;;file://'"$PWD"$'\a%}'${cwd}$'%{\033]8;;\a%}'
       pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}$link$CURRENT_PATH_SUFIX"
       
     else
       
-      cwd="$(get_bookmark "$PWD/..")/$(print -Pn %1~)"
+      cwd="$(get_bookmark "$PWD/..")/$(print -Pn %1/)"
       pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${bookmark_icon}${cwd}$CURRENT_PATH_SUFIX"
       
     fi
