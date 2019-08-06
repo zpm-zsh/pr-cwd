@@ -55,7 +55,7 @@ _pr_cwd() {
     return 0
   fi
   
-  if command -v rust >/dev/null && _pr_cwd_is_rust_dir "$PWD" ; then
+  if command -v rustc >/dev/null && _pr_cwd_is_rust_dir "$PWD" ; then
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
       hyperlink-file-pr "$(_pr_cwd_get_rust_package "$PWD")" "$PWD"
     )$CURRENT_PATH_SUFIX"
@@ -90,7 +90,7 @@ if command -v node >/dev/null && _pr_cwd_is_node_dir "$PWD/.." ; then
   return 0
 fi
 
-if command -v rust >/dev/null && _pr_cwd_is_rust_dir "$PWD/.." ; then
+if command -v rustc >/dev/null && _pr_cwd_is_rust_dir "$PWD/.." ; then
   pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
     hyperlink-file-pr "$(_pr_cwd_get_rust_package "$PWD/..")$(_pr_cwd_get_one_dir
   )" "$PWD" )$CURRENT_PATH_SUFIX"
