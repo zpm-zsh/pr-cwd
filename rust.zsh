@@ -24,16 +24,9 @@ _pr_cwd_get_rust_package(){
     | jq --raw-output '.packages[0] | [ .version ] | join(" ")'
   )
   
-  
-  if [[ $CLICOLOR = 1 ]]; then
-    
-    echo -n "%{$c[magenta]$bold%}"
-    echo -n "${name}#${version}"
-    echo -n "%{$c[reset]%}"
-    
-  else
-    echo "${name}#${version}"
-  fi
+  echo -n "%{$c[magenta]$bold%}"
+  echo -n "${name}#${version}"
+  echo -n "%{$c[reset]%}"
   
 }
 

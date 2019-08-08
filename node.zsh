@@ -10,7 +10,6 @@ _pr_cwd_is_node_dir(){
   return 1
 }
 
-
 _pr_cwd_get_node_package(){
   rpath=${1:P}
   
@@ -20,20 +19,14 @@ _pr_cwd_get_node_package(){
   if command -v jq >/dev/null; then
     package_name=$(jq -r '.name' ${package} 2>/dev/null)
   fi
-
+  
   package_version='Unknown version'
   if command -v jq >/dev/null; then
     package_version=$(jq -r '.version' ${package} 2>/dev/null)
   fi
   
-  if [[ $CLICOLOR = 1 ]]; then
-    
-    echo -n "%{$c[green]$c_bold%}"
-    echo -n "${package_name}@${package_version}"
-    echo -n "%{$c[reset]%}"
-    
-  else
-    echo "${package_name}@${package_version}"
-  fi
+  echo -n "%{$c[green]$c_bold%}"
+  echo -n "${package_name}@${package_version}"
+  echo -n "%{$c[reset]%}"
   
 }

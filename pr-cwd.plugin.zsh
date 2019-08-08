@@ -21,25 +21,14 @@ _pr_cwd() {
   pr_cwd=''
   
   # Prepare ----
-  if [[ $CLICOLOR = 1 ]]; then
-    
-    if [[ ! -w "$PWD" ]]; then
-      lock_icon="%{$c[red]$c[dim]%}%{$c[reset]%} "
-    else
-      lock_icon=""
-    fi
-    
-  else
-    
-    if [[ ! -w "$PWD" ]]; then
-      lock_icon=" "
-    else
-      lock_icon=""
-    fi
-    
-  fi
-  # /Prepare ----
   
+  if [[ ! -w "$PWD" ]]; then
+    lock_icon="%{$c[red]$c[dim]%}%{$c[reset]%} "
+  else
+    lock_icon=""
+  fi
+  
+  # /Prepare ----
   
   if _pr_cwd_is_bookmark_dir "$PWD" ; then
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_bookmark_icon}$(
@@ -99,15 +88,9 @@ fi
 
 newPWD=$(print -Pn %2~)
 
-if [[ $CLICOLOR = 1 ]]; then
-  
-  link=${newPWD//\//%{$c[red]$c[bold]%}\/%{$c[blue]$c[bold]%}}
-  link=$(hyperlink-file-pr ${link} ${PWD})
-  pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}%{$c[blue]$c[bold]%}$link$CURRENT_PATH_SUFIX%{$c[reset]%}"
-  
-else
-  pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(hyperlink-file-pr ${newPWD} ${PWD})$CURRENT_PATH_SUFIX"
-fi
+link=${newPWD//\//%{$c[red]$c[bold]%}\/%{$c[blue]$c[bold]%}}
+link=$(hyperlink-file-pr ${link} ${PWD})
+pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}%{$c[blue]$c[bold]%}$link$CURRENT_PATH_SUFIX%{$c[reset]%}"
 
 }
 
