@@ -2,7 +2,7 @@
 
 Plugin will create a global variable that can be displayed in prompts. 
 
-This plugin has good integration with [jocelynmallon/zshmarks](https://github.com/jocelynmallon/zshmarks).
+This plugin has good integration with [zpm-zsh/zshmarks](https://github.com/zpm-zsh/zshmarks).
 
 ![Record](record.gif)
 
