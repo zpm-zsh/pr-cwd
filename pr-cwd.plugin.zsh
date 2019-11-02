@@ -5,9 +5,8 @@ CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
 
 DEPENDENCES_DEBIAN+=(jq)
 DEPENDENCES_ARCH+=(jq)
-DEPENDENCES_ZSH+=( zpm-zsh/helpers zpm-zsh/colors )
 
-if command -v zpm >/dev/null; then
+if (( $+functions[zpm] )); then
   zpm zpm-zsh/helpers zpm-zsh/colors
 fi
 
@@ -37,14 +36,14 @@ _pr_cwd() {
     return 0
   fi
   
-  if command -v node >/dev/null && _pr_cwd_is_node_dir "$PWD" ; then
+  if (( $+commands[node] )) && _pr_cwd_is_node_dir "$PWD" ; then
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
       hyperlink-file-pr "$(_pr_cwd_get_node_package "$PWD")" "$PWD"
     )$CURRENT_PATH_SUFIX"
     return 0
   fi
   
-  if command -v rustc >/dev/null && _pr_cwd_is_rust_dir "$PWD" ; then
+  if (( $+commands[rustc] )) && _pr_cwd_is_rust_dir "$PWD" ; then
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
       hyperlink-file-pr "$(_pr_cwd_get_rust_package "$PWD")" "$PWD"
     )$CURRENT_PATH_SUFIX"
@@ -72,14 +71,14 @@ if _pr_cwd_is_bookmark_dir "$PWD/.." ; then
   return 0
 fi
 
-if command -v node >/dev/null && _pr_cwd_is_node_dir "$PWD/.." ; then
+if (( $+commands[node] )) && _pr_cwd_is_node_dir "$PWD/.." ; then
   pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
     hyperlink-file-pr "$(_pr_cwd_get_node_package "$PWD/..")$(_pr_cwd_get_one_dir)" "$PWD"
   )$CURRENT_PATH_SUFIX"
   return 0
 fi
 
-if command -v rustc >/dev/null && _pr_cwd_is_rust_dir "$PWD/.." ; then
+if (( $+commands[rustc] )) && _pr_cwd_is_rust_dir "$PWD/.." ; then
   pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
     hyperlink-file-pr "$(_pr_cwd_get_rust_package "$PWD/..")$(_pr_cwd_get_one_dir
   )" "$PWD" )$CURRENT_PATH_SUFIX"
