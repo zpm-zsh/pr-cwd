@@ -12,21 +12,12 @@ _pr_cwd_is_rust_dir(){
 
 _pr_cwd_get_rust_package(){
   rpath=${1:P}
-  
-  
-  local name=$(
+    
+  local rust_version_str=$(
     cargo metadata --no-deps --format-version 1 --manifest-path=${rpath}/Cargo.toml \
-    | jq --raw-output '.packages[0] | [ .name ] | join(" ")'
+    | jq --raw-output '(.packages[0] | .name) + "#" + (.packages[0] | .version)'
   )
   
-  local version=$(
-    cargo metadata --no-deps --format-version 1 --manifest-path=${rpath}/Cargo.toml \
-    | jq --raw-output '.packages[0] | [ .version ] | join(" ")'
-  )
-  
-  echo -n "%{$c[magenta]$bold%}"
-  echo -n "${name}#${version}"
-  echo -n "%{$c[reset]%}"
-  
+  echo -n "%{$c[magenta]$bold%}${rust_version_str}%{$c[reset]%}"  
 }
 
