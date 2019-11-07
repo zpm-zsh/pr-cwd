@@ -6,7 +6,10 @@ _pr_cwd_is_bookmark_dir(){
   rpath=$(print -D ${1:P})
    
   if [[ ! -z "$BOOKMARKS_FILE" ]]; then
-    if egrep -q "^${rpath}\|" "$BOOKMARKS_FILE" ; then
+    declare -a lines; lines=( "${(@f)"$(<$BOOKMARKS_FILE)"}" )
+    declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
+
+    if [[ ! -z "$grepped" ]] then
       return 0
     fi
     
@@ -17,8 +20,11 @@ _pr_cwd_is_bookmark_dir(){
 
 _pr_cwd_get_bookmark(){
   rpath=$(print -D ${1:P})
-    
+
+  declare -a lines; lines=( "${(@f)"$(<$BOOKMARKS_FILE)"}" )
+  declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
+
   echo -n "%{$c[cyan]$c_bold%}"
-  echo -n $(egrep "^${rpath}\|" "$BOOKMARKS_FILE" | awk -F'|' '{print $2}')
+  echo -n ${grepped##*\|}
   echo -n "%{$c[reset]%}"
 }
