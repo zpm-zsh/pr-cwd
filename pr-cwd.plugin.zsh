@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+# Standarized $0 handling, following:
+# https://github.com/zdharma/Zsh-100-Commits-Club/blob/master/Zsh-Plugin-Standard.adoc
+0="${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}"
+_DIRNAME="${0:h}"
+
 CURRENT_PATH_PREFIX=${CURRENT_PATH_PREFIX:-" "}
 CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
 
@@ -10,11 +15,11 @@ if (( $+functions[zpm] )); then
   zpm zpm-zsh/helpers zpm-zsh/colors
 fi
 
-source  ${${(%):-%x}:a:h}/home.zsh
-source  ${${(%):-%x}:a:h}/one-dir.zsh
-source  ${${(%):-%x}:a:h}/bookmark.zsh
-source  ${${(%):-%x}:a:h}/node.zsh
-source  ${${(%):-%x}:a:h}/rust.zsh
+source  "${_DIRNAME}/home.zsh"
+source  "${_DIRNAME}/one-dir.zsh"
+source  "${_DIRNAME}/bookmark.zsh"
+source  "${_DIRNAME}/node.zsh"
+source  "${_DIRNAME}/rust.zsh"
 
 _pr_cwd() {
   pr_cwd=''
