@@ -99,7 +99,7 @@ _pr_cwd_get_rust_package(){
     | jq --raw-output "(.packages[0] | .name) + \"%{${c[grey]}%}#%{${c[bright_grey]}%}\" + (.packages[0] | .version)"  2>/dev/null  )
   fi
   
-  echo -n "%{$c[magenta]$bold%}${package_str}%{$c[reset]%}"
+  echo -n "%{$c[magenta]$c_bold%}${package_str}%{$c[reset]%}"
 }
 
 _pr_cwd() {
