@@ -78,8 +78,10 @@ _pr_cwd() {
     lock_icon=""
   fi
   # /Prepare ----
+  
   if [[ -n "${BOOKMARKS_FILE}" ]]; then
     local bookmark_dir=$(_pr_cwd_get_bookmark "$PWD")
+    
     if [[ -n "${bookmark_dir}" ]] ; then
       pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_bookmark_icon}$(
         hyperlink-file-pr "${bookmark_dir}" "$PWD"
@@ -119,7 +121,7 @@ _pr_cwd() {
     return 0
   fi
   
-  if [[ "${PWD:h}" != "/" ]]; then
+  if [[ "${PWD:h}" == "/" ]]; then
     local one_dir="$(_pr_cwd_one)"
     
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
@@ -130,6 +132,7 @@ _pr_cwd() {
   
   if [[ -n "${BOOKMARKS_FILE}" ]]; then
     local bookmark_dir=$(_pr_cwd_get_bookmark "$PWD/..")
+    
     if [[ -n "${bookmark_dir}" ]]; then
       pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_bookmark_icon}$(
         hyperlink-file-pr "${bookmark_dir}$(_pr_cwd_get_one_dir)" "$PWD"
@@ -167,6 +170,14 @@ _pr_cwd() {
   pr_cwd="${CURRENT_PATH_PREFIX}${lock_icon}%{${c[blue]}${c_bold}%}${link}${CURRENT_PATH_SUFIX}%{${c_reset}%}"
 }
 
-_pr_cwd
+_pr_cwd_background(){
+  pr_cwd_old="${pr_cwd}"
+  _pr_cwd
+  if [[ ! "$pr_cwd_old" == "$pr_cwd" ]]; then
+    zle && zle reset-prompt
+  fi
+}
+
 autoload -Uz add-zsh-hook
+add-zsh-hook background _pr_cwd_background
 add-zsh-hook chpwd _pr_cwd
