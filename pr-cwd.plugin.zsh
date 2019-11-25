@@ -14,12 +14,12 @@ _pr_cwd_bookmark_icon="%{${c[blue]}${c_dim}%}%{${c_reset}%} "
 
 _pr_cwd_is_bookmark_dir(){
   rpath="$(print -D ${1:P})"
-  
-  if [[ -n "$BOOKMARKS_FILE" ]]; then
+   
+  if [[ ! -z "$BOOKMARKS_FILE" ]]; then
     declare -a lines; lines=( "${(@f)"$(<$BOOKMARKS_FILE)"}" )
-    declare -a grepped; grepped=( "${(M)lines:#${rpath}\|*}" )
-    
-    if [[ -n "$grepped" ]]; then
+    declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
+
+    if [[ ! -z "${grepped}" ]] then
       return 0
     fi
   fi
@@ -57,14 +57,15 @@ _pr_cwd_is_rust_dir(){
 
 _pr_cwd_get_bookmark(){
   rpath="$(print -D ${1:P})"
-  
+
   declare -a lines; lines=( "${(@f)"$(<$BOOKMARKS_FILE)"}" )
-  declare -a grepped; grepped=( "${(M)lines:#${rpath}\|*}" )
-  
+  declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
+
   echo -n "%{${c[cyan]}${c_bold}%}"
-  echo -n "${grepped##*\|}"
+  echo -n ${grepped##*\|}
   echo -n "%{${c_reset}%}"
 }
+
 
 _pr_cwd_get_home_dir(){
   echo -n "%{${c[blue]}${c_bold}%}"
