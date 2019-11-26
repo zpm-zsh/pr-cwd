@@ -12,13 +12,13 @@ fi
 
 _pr_cwd_bookmark_icon="%{${c[blue]}${c_dim}%}%{${c_reset}%} "
 
-_pr_cwd_home(){
+_pr_cwd_get_home_dir(){
   echo -n "%{${c[blue]}${c_bold}%}"
   echo -n "$(print -Pn %~)"
   echo -n "%{${c_reset}%}"
 }
 
-_pr_cwd_one(){
+_pr_cwd_get_one_dir(){
   echo -n "%{${c[red]}${c_bold}%}/"
   echo -n "%{${c[blue]}${c_bold}%}${PWD:t}"
   echo -n "%{${c_reset}%}"
@@ -113,7 +113,7 @@ _pr_cwd() {
   fi
   
   if [[ "$(print -Pn %1~ )" == '~'* ]]; then
-    local home_dir="$(_pr_cwd_home $PWD)"
+    local home_dir="$(_pr_cwd_get_home_dir $PWD)"
     
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
       hyperlink-file-pr "${home_dir}" "$PWD"
@@ -122,7 +122,7 @@ _pr_cwd() {
   fi
   
   if [[ "${PWD:h}" == "/" ]]; then
-    local one_dir="$(_pr_cwd_one)"
+    local one_dir="$(_pr_cwd_get_one_dir)"
     
     pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
       hyperlink-file-pr "${one_dir}" "$PWD"
