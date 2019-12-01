@@ -25,6 +25,7 @@ _pr_cwd_get_one_dir(){
 }
 
 _pr_cwd_get_bookmark(){
+  local rpath
   rpath="$(print -D ${1:P})"
   
   declare -a lines; lines=( "${(@f)"$(<$BOOKMARKS_FILE)"}" )
