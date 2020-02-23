@@ -8,6 +8,9 @@ CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
 DEPENDENCES_DEBIAN+=(jq)
 DEPENDENCES_ARCH+=(jq)
 
+typeset -g pr_cwd
+typeset -g pr_cwd_old
+
 if (( $+functions[zpm] )); then
   zpm zpm-zsh/helpers,inline zpm-zsh/colors,inline
 fi
@@ -72,7 +75,6 @@ _pr_cwd_node(){
 }
 
 _pr_cwd() {
-  local pr_cwd
   local lock_icon
   local newPWD
   local link
@@ -179,7 +181,6 @@ _pr_cwd() {
 }
 
 _pr_cwd_background(){
-  local pr_cwd_old
   pr_cwd_old="${pr_cwd}"
   _pr_cwd
   if [[ ! "$pr_cwd_old" == "$pr_cwd" ]]; then
