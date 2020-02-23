@@ -70,6 +70,11 @@ _pr_cwd_node(){
 }
 
 _pr_cwd() {
+  local pr_cwd
+  local lock_icon
+  local newPWD
+  local link
+
   pr_cwd=''
   
   # Prepare ----
