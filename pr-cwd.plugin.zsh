@@ -172,6 +172,7 @@ _pr_cwd() {
 }
 
 _pr_cwd_background(){
+  local pr_cwd_old
   pr_cwd_old="${pr_cwd}"
   _pr_cwd
   if [[ ! "$pr_cwd_old" == "$pr_cwd" ]]; then
