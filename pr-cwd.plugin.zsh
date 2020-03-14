@@ -11,7 +11,7 @@ DEPENDENCES_ARCH+=(jq)
 typeset -g pr_cwd
 
 if (( $+functions[zpm] )); then
-  zpm zpm-zsh/helpers,inline zpm-zsh/colors,inline
+  zpm zpm-zsh/helpers zpm-zsh/colors
 fi
 
 _pr_cwd_bookmark_icon="%{${c[blue]}${c_dim}%}%{${c_reset}%} "
@@ -32,7 +32,7 @@ function _pr_cwd_get_bookmark() {
   local rpath
   rpath="$(print -D ${1:P})"
 
-  declare -a lines; lines=( "${(@f)"$(<$BOOKMARKS_FILE)"}" )
+  declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
   declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
 
   if [[ ! -z "${grepped}" ]] then
@@ -88,7 +88,7 @@ function _pr_cwd() {
   fi
   # /Prepare ----
 
-  if [[ -n "${BOOKMARKS_FILE}" ]]; then
+  if [[ -n "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
     local bookmark_dir=$(_pr_cwd_get_bookmark "$PWD")
 
     if [[ -n "${bookmark_dir}" ]] ; then
@@ -139,7 +139,7 @@ function _pr_cwd() {
     return 0
   fi
 
-  if [[ -n "${BOOKMARKS_FILE}" ]]; then
+  if [[ -n "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
     local bookmark_dir=$(_pr_cwd_get_bookmark "$PWD/..")
 
     if [[ -n "${bookmark_dir}" ]]; then
