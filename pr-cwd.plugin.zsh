@@ -9,7 +9,6 @@ DEPENDENCES_DEBIAN+=(jq)
 DEPENDENCES_ARCH+=(jq)
 
 typeset -g pr_cwd
-typeset -g pr_cwd_old
 
 if (( $+functions[zpm] )); then
   zpm zpm-zsh/helpers,inline zpm-zsh/colors,inline
