@@ -88,7 +88,7 @@ function _pr_cwd() {
   fi
   # /Prepare ----
 
-  if [[ -n "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
+  if [[ -e "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
     local bookmark_dir=$(_pr_cwd_get_bookmark "$PWD")
 
     if [[ -n "${bookmark_dir}" ]] ; then
@@ -139,7 +139,7 @@ function _pr_cwd() {
     return 0
   fi
 
-  if [[ -n "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
+  if [[ -e "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
     local bookmark_dir=$(_pr_cwd_get_bookmark "$PWD/..")
 
     if [[ -n "${bookmark_dir}" ]]; then
