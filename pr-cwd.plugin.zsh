@@ -1,20 +1,18 @@
 #!/usr/bin/env zsh
 
-typeset -g CURRENT_PATH_PREFIX
-CURRENT_PATH_PREFIX=${CURRENT_PATH_PREFIX:-" "}
-typeset -g CURRENT_PATH_SUFIX
-CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
+typeset -g CURRENT_PATH_PREFIX=${CURRENT_PATH_PREFIX:-" "}
+typeset -g CURRENT_PATH_SUFIX=${CURRENT_PATH_SUFIX:-""}
 
 DEPENDENCES_DEBIAN+=(jq)
 DEPENDENCES_ARCH+=(jq)
 
 typeset -g pr_cwd
 
-if (( $+functions[zpm] )); then
-  zpm zpm-zsh/helpers zpm-zsh/colors
-fi
+if (( $+functions[zpm] )); then #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
+  zpm zpm-zsh/helpers zpm-zsh/colors #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
+fi #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
 
-_pr_cwd_bookmark_icon="%{${c[blue]}${c_dim}%}%{${c_reset}%} "
+typeset -g _pr_cwd_bookmark_icon="%{${c[blue]}${c_dim}%}%{${c_reset}%} "
 
 function _pr_cwd_get_home_dir() {
   echo -n "%{${c[blue]}${c_bold}%}"
@@ -29,8 +27,7 @@ function _pr_cwd_get_one_dir() {
 }
 
 function _pr_cwd_get_bookmark() {
-  local rpath
-  rpath="$(print -D ${1:P})"
+  local rpath="$(print -D ${1:P})"
 
   declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
   declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
@@ -42,7 +39,6 @@ function _pr_cwd_get_bookmark() {
 
     return 0
   else
-    echo
     return 1
   fi
 }
