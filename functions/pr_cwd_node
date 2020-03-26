@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-function _pr_cwd_node() {
+function pr_cwd_node() {
   package="${1}/package.json"
   package_str='Unknown name'
 

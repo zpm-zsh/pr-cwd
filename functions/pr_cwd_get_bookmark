@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-function _pr_cwd_get_bookmark() {
+function pr_cwd_get_bookmark() {
   local rpath="$(print -D ${1:P})"
 
   declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
