@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+function _pr_cwd_rust() {
+  package_str='Unknown name'
+
+  if (( $+commands[jq] )); then
+    package_str="$(
+      cargo metadata --no-deps --format-version 1 --manifest-path="${1}/Cargo.toml" \
+        | jq --raw-output "(.packages[0] | .name) + \"%{${c[grey]}%}#%{${c[bright_grey]}%}\" + (.packages[0] | .version)"  2>/dev/null
+    )"
+  fi
+
+  echo -n "%{${c[magenta]}${c_bold}%}${package_str}%{${c_reset}%}"
+}
