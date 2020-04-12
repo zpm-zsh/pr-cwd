@@ -7,9 +7,9 @@ function pr_cwd_get_bookmark() {
   declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
 
   if [[ ! -z "${grepped}" ]] then
-    echo -n "%{${c[cyan]}${c_bold}%}"
+    echo -n "%{${c[cyan]}${c[bold]}%}"
     echo -n ${grepped##*\|}
-    echo -n "%{${c_reset}%}"
+    echo -n "%{${c[reset]}%}"
 
     return 0
   else

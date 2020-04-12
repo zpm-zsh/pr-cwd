@@ -8,7 +8,7 @@ function pr_cwd_node() {
     package_str="$(jq -r ".name + \"%{${c[grey]}%}@%{${c[bright_grey]}%}\" + .version" "${package}" 2>/dev/null)"
   fi
 
-  echo -n "%{${c[green]}${c_bold}%}"
+  echo -n "%{${c[green]}${c[bold]}%}"
   echo -n "${package_str}"
-  echo -n "%{${c_reset}%}"
+  echo -n "%{${c[reset]}%}"
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 function pr_cwd_get_one_dir() {
-  echo -n "%{${c[red]}${c_bold}%}/"
-  echo -n "%{${c[blue]}${c_bold}%}${PWD:t}"
-  echo -n "%{${c_reset}%}"
+  echo -n "%{${c[red]}${c[bold]}%}/"
+  echo -n "%{${c[blue]}${c[bold]}%}${PWD:t}"
+  echo -n "%{${c[reset]}%}"
 }

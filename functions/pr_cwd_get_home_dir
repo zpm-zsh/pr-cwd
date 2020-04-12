@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 function pr_cwd_get_home_dir() {
-  echo -n "%{${c[blue]}${c_bold}%}"
+  echo -n "%{${c[blue]}${c[bold]}%}"
   echo -n "$(print -Pn %~)"
-  echo -n "%{${c_reset}%}"
+  echo -n "%{${c[reset]}%}"
 }

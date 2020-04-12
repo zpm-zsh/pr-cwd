@@ -10,5 +10,5 @@ function pr_cwd_rust() {
     )"
   fi
 
-  echo -n "%{${c[magenta]}${c_bold}%}${package_str}%{${c_reset}%}"
+  echo -n "%{${c[magenta]}${c[bold]}%}${package_str}%{${c[reset]}%}"
 }
