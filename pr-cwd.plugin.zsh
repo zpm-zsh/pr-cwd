@@ -8,7 +8,7 @@ DEPENDENCES_ARCH+=(jq)
 
 typeset -g pr_cwd
 
-typeset -g _pr_cwd_bookmark_icon="%{${c[blue]}${c_dim}%}%{${c_reset}%} "
+typeset -g _pr_cwd_bookmark_icon="%{${c[blue]}${c[dim]}%}%{${c[reset]}%} "
 
 if [[ $PMSPEC != *f* ]] {
   fpath+=( "${0:h}/functions" )
@@ -22,7 +22,7 @@ function _pr_cwd() {
   local link
 
   if [[ ! -w "$PWD" ]]; then
-    lock_icon="%{${c[red]}${c_dim}%}%{${c_reset}%} "
+    lock_icon="%{${c[red]}${c[dim]}%}%{${c[reset]}%} "
   else
     lock_icon=""
   fi
@@ -122,9 +122,9 @@ function _pr_cwd() {
 
   newPWD="$(print -Pn %2~)"
 
-  link=${newPWD//\//%{${c[red]}${c_bold}%}\/%{${c[blue]}${c_bold}%}}
+  link=${newPWD//\//%{${c[red]}${c[bold]}%}\/%{${c[blue]}${c[bold]}%}}
   link=$(hyperlink-file-pr "${link}" "${PWD}")
-  pr_cwd="${CURRENT_PATH_PREFIX}${lock_icon}%{${c[blue]}${c_bold}%}${link}${CURRENT_PATH_SUFIX}%{${c_reset}%}"
+  pr_cwd="${CURRENT_PATH_PREFIX}${lock_icon}%{${c[blue]}${c[bold]}%}${link}${CURRENT_PATH_SUFIX}%{${c[reset]}%}"
 }
 
 autoload -Uz add-zsh-hook
