@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 function pr_cwd_get_bookmark() {
-  local rpath="$(print -D ${1:P})"
+  local rpath="$(print -D ${1})"
 
   declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
   declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
