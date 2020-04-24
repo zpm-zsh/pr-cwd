@@ -1,18 +1,17 @@
 #!/usr/bin/env zsh
 
-function pr_cwd_get_bookmark() {
-  local rpath="$(print -D ${1})"
+local rpath="$(print -D ${1})"
 
-  declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
-  declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
+declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
+declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
 
-  if [[ ! -z "${grepped}" ]] then
-    echo -n "%{${c[cyan]}${c[bold]}%}"
-    echo -n ${grepped##*\|}
-    echo -n "%{${c[reset]}%}"
+if [[ ! -z "${grepped}" ]] then
+  echo -n "%{${c[cyan]}${c[bold]}%}"
+  echo -n ${grepped##*\|}
+  echo -n "%{${c[reset]}%}"
 
-    return 0
-  else
-    return 1
-  fi
-}
+  return 0
+else
+  return 1
+fi
+

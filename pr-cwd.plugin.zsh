@@ -14,7 +14,7 @@ if [[ $PMSPEC != *f* ]] {
   fpath+=( "${0:h}/functions" )
 }
 
-autoload -Uz pr_cwd_get_bookmark pr_cwd_get_one_dir pr_cwd_rust pr_cwd_get_home_dir pr_cwd_node
+autoload -Uz pr_cwd_get_bookmark pr_cwd_get_one_dir pr_cwd_rust pr_cwd_get_home_dir pr_cwd_node hyperlink-file-pr
 
 function _pr_cwd() {
   local lock_icon

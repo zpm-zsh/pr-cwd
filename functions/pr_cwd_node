@@ -1,14 +1,12 @@
 #!/usr/bin/env zsh
 
-function pr_cwd_node() {
-  package="${1}/package.json"
-  package_str='Unknown name'
+package="${1}/package.json"
+package_str='Unknown name'
 
-  if (( $+commands[jq] )); then
-    package_str="$(jq -r ".name + \"%{${c[grey]}%}@%{${c[bright_grey]}%}\" + .version" "${package}" 2>/dev/null)"
-  fi
+if (( $+commands[jq] )); then
+  package_str="$(jq -r ".name + \"%{${c[grey]}%}@%{${c[bright_grey]}%}\" + .version" "${package}" 2>/dev/null)"
+fi
 
-  echo -n "%{${c[green]}${c[bold]}%}"
-  echo -n "${package_str}"
-  echo -n "%{${c[reset]}%}"
-}
+echo -n "%{${c[green]}${c[bold]}%}"
+echo -n "${package_str}"
+echo -n "%{${c[reset]}%}"
