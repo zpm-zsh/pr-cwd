@@ -14,7 +14,7 @@ if [[ $PMSPEC != *f* ]] {
   fpath+=( "${0:h}/functions" )
 }
 
-autoload -Uz pr_cwd_get_bookmark pr_cwd_get_one_dir pr_cwd_rust pr_cwd_get_home_dir pr_cwd_node hyperlink-file-pr
+autoload -Uz pr_cwd_get_bookmark pr_cwd_get_one_dir pr_cwd_get_home_dir  
 
 function _pr_cwd() {
   local lock_icon
@@ -47,28 +47,6 @@ function _pr_cwd() {
     fi
   fi
 
-  if (( $+commands[node] )); then;
-    if [[ -f "${PWD}/package.json" ]] ; then
-      local node_dir=$(pr_cwd_node "$PWD")
-
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
-        hyperlink-file-pr "${node_dir}" "$PWD"
-      )$CURRENT_PATH_SUFIX"
-      return 0
-    fi
-  fi
-
-  if (( $+commands[rustc] )) ;then
-    if [[ -f "${PWD}/Cargo.toml" ]]; then
-      local rust_dir=$(pr_cwd_rust "$PWD")
-
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
-        hyperlink-file-pr "${rust_dir}" "$PWD"
-      )$CURRENT_PATH_SUFIX"
-      return 0
-    fi
-  fi
-
   if [[ "$(print -Pn %1~ )" == '~'* ]]; then
     local home_dir="$(pr_cwd_get_home_dir $PWD)"
 
@@ -93,28 +71,6 @@ function _pr_cwd() {
     if [[ -n "${bookmark_dir}" ]]; then
       pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}${_pr_cwd_bookmark_icon}$(
         hyperlink-file-pr "${bookmark_dir}$(pr_cwd_get_one_dir)" "$PWD"
-      )$CURRENT_PATH_SUFIX"
-      return 0
-    fi
-  fi
-
-  if (( $+commands[node] )) ; then
-    if [[ -f "${PWD}/../package.json"  ]] ; then
-      local node_dir=$(pr_cwd_node "$PWD/..")
-
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
-        hyperlink-file-pr "${node_dir}$(pr_cwd_get_one_dir)" "$PWD"
-      )$CURRENT_PATH_SUFIX"
-      return 0
-    fi
-  fi
-
-  if (( $+commands[rustc] )) ; then
-    if [[ -f "${PWD}/../Cargo.toml" ]]; then
-      local rust_dir=$(pr_cwd_rust "$PWD/..")
-
-      pr_cwd="$CURRENT_PATH_PREFIX${lock_icon}$(
-        hyperlink-file-pr "${rust_dir}$(pr_cwd_get_one_dir)" "$PWD"
       )$CURRENT_PATH_SUFIX"
       return 0
     fi
