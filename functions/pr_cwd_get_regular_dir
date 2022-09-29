@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+local regular_dir="$1"
+local is_first="$2"
+
+if [[ -z "${regular_dir:t}" ]]; then
+  return 0
+fi
+
+regular_dir="%{${c[blue]}${c[bold]}%}${regular_dir:t}%{${c[reset]}%}"
+regular_dir="$(hyperlink-file-pr "${regular_dir}" "${1}")"
+
+echo "${regular_dir}"
