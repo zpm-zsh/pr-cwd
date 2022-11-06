@@ -6,13 +6,17 @@
 DEPENDENCES_DEBIAN+=(jq)
 DEPENDENCES_ARCH+=(jq)
 
-typeset -g pr_cwd
-
 if [[ $PMSPEC != *f* ]] {
   fpath+=( "${0:h}/functions" )
 }
 
+if (( $+functions[zpm] )); then
+  zpm load zpm-zsh/helpers
+fi
+
 autoload -Uz pr_cwd_get_bookmark pr_cwd_get_one_dir pr_cwd_is_special pr_cwd_get_regular_dir
+
+typeset -g pr_cwd
 
 function _pr_cwd() {
   local local_cwd=''
@@ -22,7 +26,7 @@ function _pr_cwd() {
     local_cwd="$last_part"
   else
     last_part="$(pr_cwd_get_regular_dir $PWD)"
-    first_part="$(pr_cwd_is_special "${PWD:h}")" 
+    first_part="$(pr_cwd_is_special "${PWD:h}")"
     if [[ -n "$first_part" ]]; then
       local_cwd="${first_part}%{${c[red]}${c[bold]}%}/%{${c[reset]}%}${last_part}"
     else
