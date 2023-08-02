@@ -1,8 +1,5 @@
 #!/usr/bin/env zsh
 
-: ${CURRENT_PATH_PREFIX:=" "}
-: ${CURRENT_PATH_SUFIX:=""}
-
 DEPENDENCES_DEBIAN+=(jq)
 DEPENDENCES_ARCH+=(jq)
 
@@ -41,7 +38,7 @@ function _pr_cwd() {
     fi
   fi
 
-  pr_cwd="${CURRENT_PATH_PREFIX}${lock_icon}%{${c[blue]}${c[bold]}%}${local_cwd}${CURRENT_PATH_SUFIX}%{${c[reset]}%}"
+  pr_cwd=" ${lock_icon}%{${c[blue]}${c[bold]}%}${local_cwd}%{${c[reset]}%}"
 }
 
 autoload -Uz add-zsh-hook
