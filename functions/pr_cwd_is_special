@@ -20,11 +20,6 @@ else
   lock_icon=""
 fi
 
-if [[ "$dir" == "$HOME" ]]; then
-  echo "${lock_icon}$(hyperlink-file-pr "~" "$dir")"
-  return 0
-fi
-
 if [[ -e "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
   local bookmark_dir=$(pr_cwd_get_bookmark "$dir")
 
@@ -32,6 +27,11 @@ if [[ -e "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
     echo "${lock_icon}${bookmark_icon}$(hyperlink-file-pr "${bookmark_dir}" "$dir")"
     return 0
   fi
+fi
+
+if [[ "$dir" == "$HOME" ]]; then
+  echo "${lock_icon}$(hyperlink-file-pr "~" "$dir")"
+  return 0
 fi
 
 if [[ "${dir}" == "/" ]]; then
