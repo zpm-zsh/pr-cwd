@@ -20,7 +20,7 @@ else
   lock_icon=""
 fi
 
-if [[ -e "${BOOKMARKS_FILE:-"$HOME/.bookmarks"}" ]]; then
+if [[ -e "${ZPM_BOOKMARKS_FILE:-"${XDG_CONFIG_HOME}/zsh/bookmarks"}" ]]; then
   local bookmark_dir=$(pr_cwd_get_bookmark "$dir")
 
   if [[ -n "${bookmark_dir}" ]] ; then

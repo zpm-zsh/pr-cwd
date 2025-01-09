@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
 
+
 local rpath="$(print -D ${1})"
 
-declare -a lines; lines=( "${(@f)"$(<${BOOKMARKS_FILE:-"$HOME/.bookmarks"})"}" )
+declare -a lines; lines=( "${(@f)"$(<${ZPM_BOOKMARKS_FILE:-"${XDG_CONFIG_HOME}/zsh/bookmarks"})"}" )
 declare -a grepped; grepped=( ${(M)lines:#${rpath}\|*} )
 
 if [[ ! -z "${grepped}" ]] then
@@ -14,4 +15,3 @@ if [[ ! -z "${grepped}" ]] then
 else
   return 1
 fi
-

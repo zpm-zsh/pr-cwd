@@ -7,6 +7,8 @@ if [[ $PMSPEC != *f* ]] {
   fpath+=( "${0:h}/functions" )
 }
 
+[ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME="$HOME/.config"
+
 if (( $+functions[zpm] )); then
   zpm load zpm-zsh/helpers
 fi
